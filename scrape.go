@@ -11,29 +11,29 @@ import (
 // get the month of birth
 func getMonthOfBirth(month string) int {
 	switch month {
-	case "Aries":
+	case "Aries\n":
 		return 1
-	case "Taurus":
+	case "Taurus\n":
 		return 2
-	case "Gemini":
+	case "Gemini\n":
 		return 3
-	case "Cancer":
+	case "Cancer\n":
 		return 4
-	case "Leo":
+	case "Leo\n":
 		return 5
-	case "Virgo":
+	case "Virgo\n":
 		return 6
-	case "Libra":
+	case "Libra\n":
 		return 7
-	case "Scorpio":
+	case "Scorpio\n":
 		return 8
-	case "Sagittarius":
+	case "Sagittarius\n":
 		return 9
-	case "Capricorn":
+	case "Capricorn\n":
 		return 10
-	case "Aquarius":
+	case "Aquarius\n":
 		return 11
-	case "Pisces":
+	case "Pisces\n":
 		return 12
 	}
 	return 0
@@ -43,20 +43,18 @@ type Store struct {
 	Horoscope string
 }
 
+// get the horoscope for the day
 func scrapeHoro(sign int) string {
 	// Get the data from https://www.horoscope.com/us/index.aspx
 	// Instantiate default collector
 	c := colly.NewCollector()
-	character := make([]Store, 1)
+	character := make([]Store, 0)
 
 	// On every a element which has href attribute call callback
-	c.OnHTML("main-horoscope", func(e *colly.HTMLElement) {
-		e.ForEach("p", func(_ int, e *colly.HTMLElement) {
-			newInfo := Store{}
-			newInfo.Horoscope = e.ChildText("p")
-			fmt.Println(e.ChildText("p"))
-			character = append(character, newInfo)
-		})
+	c.OnHTML("div.main-horoscope", func(e *colly.HTMLElement) {
+		newInfo := Store{}
+		newInfo.Horoscope = e.ChildText("p:nth-child(2)")
+		character = append(character, newInfo)
 	})
 	// Before making a request print "Visiting ..."
 	c.OnRequest(func(r *colly.Request) {
@@ -72,7 +70,9 @@ func scrapeHoro(sign int) string {
 
 	// Start scraping on https://lucifer.fandom.com/wiki/Episodes
 	c.Visit("https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign=" + fmt.Sprintf("%d", sign))
-
+	c.OnScraped(func(r *colly.Response) {
+		fmt.Print(character[0].Horoscope)
+	})
 	return character[0].Horoscope
 }
 
@@ -81,6 +81,11 @@ func main() {
 	fmt.Print("What is your Zodiac sign?: ")
 	sign, _ := reader.ReadString('\n')
 	zodiacSign := getMonthOfBirth(sign)
+	if zodiacSign == 0 {
+		fmt.Println("Invalid sign")
+		return
+	}
 	todayHoroscope := scrapeHoro(zodiacSign)
-	fmt.Println("Your horoscope for today is: ", todayHoroscope)
+	fmt.Print("\n")
+	fmt.Println("Your horoscope for today is:", todayHoroscope)
 }
