@@ -1,5 +1,5 @@
 # HoroscGOpe
-[![Go Report Card](https://goreportcard.com/badge/https://github.com/TheVille415/HoroscGOpe)](https://goreportcard.com/report/https://github.com/TheVille415/HoroscGOpe)
+[![Go Report Card](https://goreportcard.com/report/github.com/TheVille415/makesite)](https://goreportcard.com/report/github.com/TheVille415/makesite)
 
 ## Project Description 
 A simple webscraper app built to return daily horoscope based on your zodiac sign.
