@@ -15,3 +15,6 @@ After Cloning the repo, navigate to the project directory and run the following 
 > go build scrape.go
 
 >./scrape
+
+Then add your sign like so:
+> Aries
