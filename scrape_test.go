@@ -24,3 +24,35 @@ func TestSign(t *testing.T) {
 		}
 	}
 }
+
+// I would like to make a second test table for the horoscope
+// but each horoscope would change through the day so I wont be able to test that function
+// sorry
+
+// Cancer
+func BenchmarkCancer(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		scrapeHoro(4)
+	}
+}
+
+// Capricorn
+func BenchmarkCapricorn(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		scrapeHoro(10)
+	}
+}
+
+// Taurus
+func BenchmarkTaurus(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		scrapeHoro(2)
+	}
+}
+
+// Libra
+func BenchmarkLibra(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		scrapeHoro(2)
+	}
+}
